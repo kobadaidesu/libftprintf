@@ -3,22 +3,30 @@ NAME		= libftprintf.a
 CC		= cc
 CFLAGS		= -Wall -Wextra -Werror
 
-SRCS		= ft_printf.c
+LIBFT_DIR	= liblib
+LIBFT		= $(LIBFT_DIR)/libft.a
+
+SRCS		= ft_printf.c utils.c
 OBJS		= $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(LIBFT) $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR)
+
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
+	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
