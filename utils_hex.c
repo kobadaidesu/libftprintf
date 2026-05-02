@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                       :+:      :+:    :+:   */
+/*   utils_hex.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kobadai <kobadai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,20 +10,41 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "ft_printf.h"
 
-# include <stdarg.h>
-# include <unistd.h>
-# include <stdio.h>
+static int	write_hex(unsigned long long n, const char *base)
+{
+	int	len;
 
-int	ft_printf(const char *format, ...);
-int	ft_print_char(va_list *args);
-int	ft_print_str(va_list *args);
-int	ft_print_ptr(va_list *args);
-int	ft_print_int(va_list *args);
-int	ft_print_uint(va_list *args);
-int	ft_print_hex_lower(va_list *args);
-int	ft_print_hex_upper(va_list *args);
+	len = 0;
+	if (n >= 16)
+		len += write_hex(n >> 4, base);
+	write(1, &base[n & 0xf], 1);
+	return (len + 1);
+}
 
-#endif
+int	ft_print_hex_lower(va_list *args)
+{
+	return (write_hex(va_arg(*args, unsigned int), "0123456789abcdef"));
+}
+
+int	ft_print_hex_upper(va_list *args)
+{
+	return (write_hex(va_arg(*args, unsigned int), "0123456789ABCDEF"));
+}
+
+int	ft_print_ptr(va_list *args)
+{
+	void				*ptr;
+	unsigned long long	n;
+
+	ptr = va_arg(*args, void *);
+	n = (unsigned long long)ptr;
+	if (n == 0)
+	{
+		write(1, "(nil)", 5);
+		return (5);
+	}
+	write(1, "0x", 2);
+	return (2 + write_hex(n, "0123456789abcdef"));
+}

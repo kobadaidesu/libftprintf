@@ -6,12 +6,13 @@ CFLAGS		= -Wall -Wextra -Werror
 LIBFT_DIR	= liblib
 LIBFT		= $(LIBFT_DIR)/libft.a
 
-SRCS		= ft_printf.c utils.c
+SRCS		= ft_printf.c utils.c utils_hex.c
 OBJS		= $(SRCS:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
+	cp $(LIBFT) $(NAME)
 	ar rcs $(NAME) $(OBJS)
 
 $(LIBFT):
