@@ -11,14 +11,12 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "libft.h"
-#include <stdlib.h>
 
 int	ft_print_char(va_list *args)
 {
-	int	c;
+	char	c;
 
-	c = va_arg(*args, int);
+	c = (char)va_arg(*args, int);
 	write(1, &c, 1);
 	return (1);
 }
@@ -40,21 +38,7 @@ int	ft_print_str(va_list *args)
 		write(1, &str[i], 1);
 		i++;
 	}
-	return (ft_strlen(str));
-}
-
-int	ft_print_int(va_list *args)
-{
-	int		n;
-	char	*str;
-	int		len;
-
-	n = va_arg(*args, int);
-	str = ft_itoa(n);
-	len = ft_strlen(str);
-	write(1, str, len);
-	free(str);
-	return (len);
+	return (i);
 }
 
 static int	write_uint(unsigned int n)
@@ -66,6 +50,19 @@ static int	write_uint(unsigned int n)
 		len += write_uint(n / 10);
 	write(1, &"0123456789"[n % 10], 1);
 	return (len + 1);
+}
+
+int	ft_print_int(va_list *args)
+{
+	int	n;
+
+	n = va_arg(*args, int);
+	if (n < 0)
+	{
+		write(1, "-", 1);
+		return (1 + write_uint((unsigned int)(-(long)n)));
+	}
+	return (write_uint((unsigned int)n));
 }
 
 int	ft_print_uint(va_list *args)
