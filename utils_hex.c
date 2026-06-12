@@ -15,11 +15,18 @@
 static int	write_hex(unsigned long long n, const char *base)
 {
 	int	len;
+	int	ret;
 
 	len = 0;
 	if (n >= 16)
-		len += write_hex(n >> 4, base);
-	write(1, &base[n & 0xf], 1);
+	{
+		ret = write_hex(n >> 4, base);
+		if (ret == -1)
+			return (-1);
+		len += ret;
+	}
+	if (write(1, &base[n & 0xf], 1) == -1)
+		return (-1);
 	return (len + 1);
 }
 
@@ -37,14 +44,20 @@ int	ft_print_ptr(va_list *args)
 {
 	void				*ptr;
 	unsigned long long	n;
+	int					ret;
 
 	ptr = va_arg(*args, void *);
 	n = (unsigned long long)ptr;
 	if (n == 0)
 	{
-		write(1, "(nil)", 5);
+		if (write(1, "(nil)", 5) == -1)
+			return (-1);
 		return (5);
 	}
-	write(1, "0x", 2);
-	return (2 + write_hex(n, "0123456789abcdef"));
+	if (write(1, "0x", 2) == -1)
+		return (-1);
+	ret = write_hex(n, "0123456789abcdef");
+	if (ret == -1)
+		return (-1);
+	return (2 + ret);
 }

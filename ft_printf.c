@@ -30,7 +30,8 @@ int	handle_fmt(va_list *args, char fmt)
 		return (ft_print_hex_upper(args));
 	if (fmt == '%')
 	{
-		write(1, "%", 1);
+		if (write(1, "%", 1) == -1)
+			return (-1);
 		return (1);
 	}
 	return (0);
@@ -40,6 +41,7 @@ int	ft_printf(const char *fmt, ...)
 {
 	va_list	args;
 	int		cnt;
+	int		ret;
 
 	cnt = 0;
 	va_start(args, fmt);
@@ -48,11 +50,21 @@ int	ft_printf(const char *fmt, ...)
 		if (*fmt == '%')
 		{
 			fmt++;
-			cnt += handle_fmt(&args, *fmt);
+			ret = handle_fmt(&args, *fmt);
+			if (ret == -1)
+			{
+				va_end(args);
+				return (-1);
+			}
+			cnt += ret;
 		}
 		else
 		{
-			write(1, fmt, 1);
+			if (write(1, fmt, 1) == -1)
+			{
+				va_end(args);
+				return (-1);
+			}
 			cnt++;
 		}
 		fmt++;
