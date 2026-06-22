@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kobadai <kobadai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dakobaya <dakobaya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 00:01:33 by kobadai           #+#    #+#             */
-/*   Updated: 2026/05/03 00:04:50 by kobadai          ###   ########.fr       */
+/*   Updated: 2026/06/22 22:37:51 by dakobaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,9 @@ int	ft_printf(const char *fmt, ...)
 	return (cnt);
 }
 
-// int main(void)
-// {
-//     int a;
-//     int b;
+#include <stdio.h>
 
-//     a = printf("%p", 0);
-//     b = ft_printf("%p", 0);
-//     printf("%d\n", a);
-//     printf("%d\n", b);
-// }
+int	main(void)
+{
+	ft_printf("%s", NULL);
+}
