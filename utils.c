@@ -40,21 +40,7 @@ int	ft_print_str(va_list *args)
 			return (-1);
 		i++;
 	}
-	return (ft_strlen(str));
-}
-
-int	ft_print_int(va_list *args)
-{
-	int		n;
-	char	*str;
-	int		len;
-
-	n = va_arg(*args, int);
-	str = ft_itoa(n);
-	len = ft_strlen(str);
-	write(1, str, len);
-	free(str);
-	return (len);
+	return (i);
 }
 
 static int	write_uint(unsigned int n)

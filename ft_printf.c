@@ -37,6 +37,23 @@ int	handle_fmt(va_list *args, char fmt)
 	return (0);
 }
 
+static int	print_next(const char **fmt, va_list *args)
+{
+	int	ret;
+
+	if (**fmt == '%')
+	{
+		(*fmt)++;
+		ret = handle_fmt(args, **fmt);
+		if (ret == -1)
+			return (-1);
+		return (ret);
+	}
+	if (write(1, *fmt, 1) == -1)
+		return (-1);
+	return (1);
+}
+
 int	ft_printf(const char *fmt, ...)
 {
 	va_list	args;
@@ -47,26 +64,13 @@ int	ft_printf(const char *fmt, ...)
 	va_start(args, fmt);
 	while (*fmt)
 	{
-		if (*fmt == '%')
+		ret = print_next(&fmt, &args);
+		if (ret == -1)
 		{
-			fmt++;
-			ret = handle_fmt(&args, *fmt);
-			if (ret == -1)
-			{
-				va_end(args);
-				return (-1);
-			}
-			cnt += ret;
+			va_end(args);
+			return (-1);
 		}
-		else
-		{
-			if (write(1, fmt, 1) == -1)
-			{
-				va_end(args);
-				return (-1);
-			}
-			cnt++;
-		}
+		cnt += ret;
 		fmt++;
 	}
 	va_end(args);
