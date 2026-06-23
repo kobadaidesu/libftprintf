@@ -14,10 +14,11 @@
 
 int	ft_print_char(va_list *args)
 {
-	char	c;
+	unsigned char	c;
 
-	c = va_arg(*args, int);
-	write(1, &c, 1);
+	c = (unsigned char)va_arg(*args, int);
+	if (write(1, &c, 1) == -1)
+		return (-1);
 	return (1);
 }
 

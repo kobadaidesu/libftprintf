@@ -77,9 +77,9 @@ int	ft_printf(const char *fmt, ...)
 	return (cnt);
 }
 
-#include <stdio.h>
+// #include <stdio.h>
 
-int	main(void)
-{
-	ft_printf("%s", NULL);
-}
+// int	main(void)
+// {
+// 	ft_printf("%s", NULL);
+// }
