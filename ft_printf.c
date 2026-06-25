@@ -60,6 +60,8 @@ int	ft_printf(const char *fmt, ...)
 	int		cnt;
 	int		ret;
 
+	if (!fmt)
+		return (-1);
 	cnt = 0;
 	va_start(args, fmt);
 	while (*fmt)
@@ -77,9 +79,12 @@ int	ft_printf(const char *fmt, ...)
 	return (cnt);
 }
 
-// #include <stdio.h>
 
-// int	main(void)
-// {
-// 	ft_printf("%s", NULL);
-// }
+#include "ft_printf.h"
+#include <stdio.h>
+
+int main(void)
+{
+    printf("%d\n", ft_printf(NULL));
+    return (0);
+}

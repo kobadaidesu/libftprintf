@@ -20,12 +20,12 @@ static int	write_hex(unsigned long long n, const char *base)
 	len = 0;
 	if (n >= 16)
 	{
-		ret = write_hex(n >> 4, base);
+		ret = write_hex(n / 16, base);
 		if (ret == -1)
 			return (-1);
 		len += ret;
 	}
-	if (write(1, &base[n & 0xf], 1) == -1)
+	if (write(1, &base[n % 16], 1) == -1)
 		return (-1);
 	return (len + 1);
 }

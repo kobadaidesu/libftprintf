@@ -65,12 +65,17 @@ static int	write_uint(unsigned int n)
 int	ft_print_int(va_list *args)
 {
 	int	n;
+	int	ret;
 
 	n = va_arg(*args, int);
 	if (n < 0)
 	{
-		write(1, "-", 1);
-		return (1 + write_uint((unsigned int)(-(long)n)));
+		if (write(1, "-", 1) == -1)
+			return (-1);
+		ret = write_uint((unsigned int)(-(long)n));
+		if (ret == -1)
+			return (-1);
+		return (1 + ret);
 	}
 	return (write_uint((unsigned int)n));
 }
